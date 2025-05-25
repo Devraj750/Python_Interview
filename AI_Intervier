@@ -1,0 +1,20 @@
+import streamlit as st  # type: ignore
+import pydoc
+
+st.set_page_config(page_title="Python Help Bot", page_icon="🐍")
+st.title("🐍 Python Programming Help Bot (Offline)")
+st.markdown("Ask anything about Python programming and get instant help using Python’s built-in documentation.")
+
+question = st.text_input("💬 Ask your Python question here (e.g., 'list', 'str.upper', 'len')")
+
+if st.button("📚 Get Answer"):
+    if not question.strip():
+        st.warning("Please enter a Python topic or function name.")
+    else:
+        try:
+            result = pydoc.render_doc(question, "Help on %s")
+            st.success(f"📘 Documentation for `{question}`:")
+            st.text(result[:3000])  
+        except Exception as e:
+            st.error("⚠️ Sorry, I couldn't find any documentation for that.")
+            st.code(str(e))
